@@ -15,13 +15,13 @@ public class Login {
     private boolean loginAlreadyExist;
 
     // MySQL database stuff
-    static final String DRIVER = "com.mysql.jdbc.Driver"; // JDBC driver
-    static final String DATABASE = "hotel"; // the database name
+    private static final String DRIVER = "com.mysql.jdbc.Driver"; // JDBC driver
+    private static final String DATABASE = "hotel"; // the database name
     //    static final String HOST = "10.1.63.200"; // the database host IP
-    static final String HOST = "localhost"; // the database host IP
-    static final String DATABASE_URL =
+    private static final String HOST = "localhost"; // the database host IP
+    private static final String DATABASE_URL =
             "jdbc:mysql://" + HOST + "/" + DATABASE;
-    public Connection con = null;
+    private Connection con = null;
 
     public Login (String login, String password) {
         this.login = login;
@@ -173,7 +173,7 @@ public class Login {
 
 
     }
-    public void setConnection()
+    private void setConnection()
     {
         // connect to database
         try
@@ -183,14 +183,11 @@ public class Login {
             // establish connection to database
             con =  DriverManager.getConnection(DATABASE_URL, "root", "");
         }
-        catch (SQLException sqlException)
+        catch (SQLException | ClassNotFoundException sqlException)
         {
             sqlException.printStackTrace();
         } // end catch
-        catch (ClassNotFoundException classNotFound)
-        {
-            classNotFound.printStackTrace();
-        } // end catch
+        // end catch
 
     }
     public static void main(String[] args) {
