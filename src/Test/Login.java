@@ -1,7 +1,5 @@
 package Test;
 
-import Demos.NewAccountServer.Account;
-
 import java.sql.*;
 
 /**
