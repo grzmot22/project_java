@@ -21,13 +21,13 @@ public class Hotel {
     private int reservationId;
     private int roomNo;
     private int userId;
-    private Statement statement;
-    private ResultSet resultSet;
+    private Statement statement = null;
+    private ResultSet resultSet = null;
     private boolean reservationIdAlreadyExist;
-    private Date startDate;
-    private Date endDate;
+    private Date startDate = null;
+    private Date endDate = null;
     private int paidStatus;
-    private String roomType;
+    private String roomType = null;
     private boolean roomAlreadyBooked;
 
     public Hotel(int userId,  int reservationId, int roomNo) {
@@ -37,6 +37,7 @@ public class Hotel {
         this.roomNo = roomNo;
 
     }
+    public Hotel() {}
 
     public Hotel(int userId, int roomNo) {
         this.userId = userId;
@@ -143,6 +144,17 @@ public class Hotel {
         this.endDate = endDate;
         this.paidStatus = paidStatus;
         this.roomType = roomType;
+
+        setConnection();
+        createReservation(this.userId, roomType);
+    }
+    private void createBooking(String roomType,int roomNo, Date startDate, Date endDate, int paidStatus) {
+
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.paidStatus = paidStatus;
+        this.roomType = roomType;
+        this.roomNo = roomNo;
 
         setConnection();
         createReservation(this.userId, roomType);
@@ -360,11 +372,38 @@ public class Hotel {
         // end catch
 
     }
+    public void closeConnection()
+    {
+        // ensure resultSet, statement and connection are closed
+        try
+        {
+            if(statement != null)
+            {
+                statement.close();
+            }
+
+            if(resultSet != null)
+            {
+                resultSet.close();
+            }
+
+            if(con != null)
+            {
+                con.close();
+            }
+
+        } // end try
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
+        } // end catch
+
+    }
     public static void main(String[] args) {
 
-        Hotel test = new Hotel(100002,204);
+        Hotel test = new Hotel();
 //        test.checkBooking();)
-        test.createBooking(100001,"single", Date.valueOf("2017-04-30"),Date.valueOf("2017-05-19"),1);
+        test.createBooking(100001,"double", Date.valueOf("2017-04-30"),Date.valueOf("2017-05-19"),1);
 //        test.bookRoom("single");
 //        System.out.println(test.reservationExist());
 //        test.getFreeRooms();
