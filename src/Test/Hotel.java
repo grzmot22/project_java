@@ -20,11 +20,13 @@ public class Hotel {
 
     private int reservationId;
     private int roomNo;
-    private int UserId;
+    private int userId;
     private Statement statement;
 
-    public Hotel() {
-
+    public Hotel(int userId,  int reservationId,int roomNo) {
+        this.userId = userId;
+        this.reservationId = reservationId;
+        this.roomNo = roomNo;
     }
 
 
@@ -41,19 +43,19 @@ public class Hotel {
                 ResultSetMetaData metaData = resultSet.getMetaData();
 
                 int numOfCol = metaData.getColumnCount();
-                for (int i = 1; 1 < numOfCol; i++) {
+                for (int i = 1; i < numOfCol; i++) {
 
                     book.append(resultSet.getObject(i).toString()).append('\t');
-
+//                    System.out.println(book.toString());
                 }
 
-                return book.toString();
-
             }
+            return book.toString();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return book.toString();
     }
 
     private void createBooking() {
@@ -70,6 +72,7 @@ public class Hotel {
 
 
     private String getBookedRooms() {
+        return "test";
     }
 
     private void getFreeRooms() {
@@ -93,5 +96,10 @@ public class Hotel {
         } // end catch
         // end catch
 
+    }
+    public static void main(String[] args) {
+
+        Hotel test = new Hotel(100001,20,101);
+        test.checkBooking();
     }
 }
