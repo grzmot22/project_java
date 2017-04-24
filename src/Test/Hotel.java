@@ -150,7 +150,7 @@ public class Hotel {
         setConnection();
         createReservation(this.userId, roomType);
     }
-    private void createBooking(String roomType,int roomNo, Date startDate, Date endDate, int paidStatus) {
+    private void createBooking(int roomNo, Date startDate, Date endDate, int paidStatus) {
 
         this.startDate = startDate;
         this.endDate = endDate;
@@ -165,46 +165,50 @@ public class Hotel {
     private void createReservation(int userId, String roomType){
 
         try {
-            reservationIdAlreadyExist = false;
+//            reservationIdAlreadyExist = false;
             reservationExist();
             statement = con.createStatement();
             resultSet = statement.executeQuery("SELECT * FROM `reservations` ORDER BY reservation_id");
-            reservationId = 1;
+            if (reservationId == 0) {
+                reservationId = 1;
+                while (resultSet.next()) {
 
-            while (resultSet.next()){
+                    int currentReservationId = resultSet.getInt("reservation_id");
 
-                int currentReservationId = resultSet.getInt("reservation_id");
-
-                if (currentReservationId > 0){
-                    if (reservationId == currentReservationId){
-                        reservationId = currentReservationId + 1;
+                    if (currentReservationId > 0) {
+                        if (reservationId == currentReservationId) {
+                            reservationId = currentReservationId + 1;
+                        }
                     }
                 }
             }
-
             if (reservationExist()){
                 reservationIdAlreadyExist = true;
                 System.out.println("Reservation already exist");
 
-            } else if (!reservationExist() && !reservationIdAlreadyExist){
-                if(roomNo != 100){
-                    bookRoom(roomType, roomNo);
-                } else {
-                    bookRoom(roomType);
+                } else if (!reservationExist() && !reservationIdAlreadyExist){
+
+                    if(!roomAlreadyBooked){
+
+                        if(roomNo != 100){
+                            bookRoom(roomType, roomNo);
+                        } else {
+                            bookRoom(roomType);
+                        }
+
+                    }
+
+                    if (roomNo != 100 && this.roomType != null && !reservationIdAlreadyExist){
+                        reservationIdAlreadyExist = true;
+                        statement.executeUpdate("INSERT INTO `reservations` (`reservation_id`, `room_no`, `user_id`, `start_date`,`end_date`,`paid_status`) " +
+                                "VALUES ('"+reservationId+"', '"+roomNo+"', '"+userId+"', '"+startDate+"', '"+endDate+"', '"+paidStatus+"')");
+                        System.out.println("Reservation has been created \n Reservation ID: "+reservationId+"\n Room No: "+roomNo+"\n UserId: "+userId
+                                +"\n Start date : "+startDate+"\n End date: "+endDate +"\n Payment status: "+paidStatus);
+                    } else if (!reservationIdAlreadyExist){
+                        System.out.println("All " + roomType + " rooms booked");
+                    }
+
                 }
-
-                if (roomNo != 100){
-
-                    statement.executeUpdate("INSERT INTO `reservations` (`reservation_id`, `room_no`, `user_id`, `start_date`,`end_date`,`paid_status`) " +
-                            "VALUES ('"+reservationId+"', '"+roomNo+"', '"+userId+"', '"+startDate+"', '"+endDate+"', '"+paidStatus+"')");
-                    System.out.println("Reservation has been created \n Reservation ID: "+reservationId+"\n Room No: "+roomNo+"\n UserId: "+userId
-                            +"\n Start date : "+startDate+"\n End date: "+endDate +"\n Payment status: "+paidStatus);
-                } else {
-                    System.out.println("All " + roomType + " rooms booked");
-                }
-;
-
-            }
 
         } catch (SQLException e) {
 
@@ -316,7 +320,16 @@ public class Hotel {
         try {
             roomAlreadyBooked = false;
             statement = con.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM `rooms` WHERE type ='"+roomType+"' AND booked = 0 ORDER BY room_no");
+            if (roomType == null){
+
+                resultSet = statement.executeQuery("SELECT * FROM `rooms` WHERE  booked = 0 ORDER BY room_no");
+
+            } else {
+
+                resultSet = statement.executeQuery("SELECT * FROM `rooms` WHERE type ='"+roomType+"' AND booked = 0 ORDER BY room_no");
+
+            }
+
 
             while (resultSet.next()){
 
@@ -326,33 +339,53 @@ public class Hotel {
 
                     System.out.println("Room " + roomNo + " is free");
 
+                    resultSet = statement.executeQuery("SELECT * FROM `rooms` WHERE  room_no = "+roomNo+" ORDER BY room_no");
+                    resultSet.next();
+                    this.roomType = resultSet.getObject("type").toString();
+                    roomType = this.roomType;
+                    this.roomNo = roomNo;
+
+                    roomAlreadyBooked = true;
+
                     statement.executeUpdate("UPDATE `rooms` SET `booked` = '1', `reservation_id` = '"+reservationId+"' WHERE `rooms`.`room_no` = '"+roomNo+"'");
                     System.out.println("Room has been booked \n  Room No: "+roomNo+"\n Room type: "+roomType+"\n reservation ID: "+reservationId);
 
                 }
             }
-                resultSet = statement.executeQuery("SELECT * FROM `rooms` WHERE type ='"+roomType+"' AND booked = 1 ORDER BY room_no");
 
+            if (roomType == null){
+
+                resultSet = statement.executeQuery("SELECT * FROM `rooms` WHERE  booked = 1 ORDER BY room_no");
+
+            } else {
+
+                resultSet = statement.executeQuery("SELECT * FROM `rooms` WHERE type ='"+roomType+"' AND booked = 1 ORDER BY room_no");
+            }
                 while (resultSet.next()){
 
                     int currentRoomNo = resultSet.getInt("room_no");
 
                     if (currentRoomNo == roomNo){
                         roomAlreadyBooked = true;
-                        System.out.println("Room already booked");
+                        System.out.println("Room "+ roomNo +" already booked");
                         System.out.println("Try book different");
                         Scanner in = new Scanner(System.in);
                         try {
 
                             roomNo = Integer.parseInt(in.next());
-
+                            while (roomNo == 100 || roomNo < 100 || roomNo > 410 || (110 < roomNo && roomNo < 200)
+                                    || (210 < roomNo && roomNo < 300) || (310 < roomNo && roomNo < 400)){
+                                System.out.println("Enter room No between 101 and 409");
+                                roomNo = Integer.parseInt(in.next());
+                            }
+                            bookRoom(this.roomType,roomNo);
                         } catch (Exception e){
 
                             e.printStackTrace();
                             System.out.println("Enter room No between 101 and 409");
 
                         }
-                        bookRoom(roomType,roomNo);
+                        createReservation(this.userId,this.roomType);
                     }
                 }
         } catch (SQLException e) {
@@ -408,9 +441,9 @@ public class Hotel {
     }
     public static void main(String[] args) {
 
-        Hotel test = new Hotel();
+        Hotel test = new Hotel(100001,405);
 //        test.checkBooking();)
-        test.createBooking(100001,"double", Date.valueOf("2017-04-30"),Date.valueOf("2017-05-19"),1);
+        test.createBooking(305, Date.valueOf("2017-04-30"),Date.valueOf("2017-05-19"),1);
 //        test.bookRoom("single");
 //        System.out.println(test.reservationExist());
 //        test.getFreeRooms();
