@@ -11,6 +11,8 @@ public class Login {
     private int userId;
     private boolean adminUser;
     private boolean loginAlreadyExist;
+    private Statement st;
+    private ResultSet resultSet;
 
     // MySQL database stuff
     private static final String DRIVER = "com.mysql.jdbc.Driver"; // JDBC driver
@@ -32,19 +34,20 @@ public class Login {
     private boolean checkUser(){
         try {
             setConnection();
-            Statement st = con.createStatement();
 
-            ResultSet log = st.executeQuery("SELECT `Login`, `user_id`,`admin` FROM `user` WHERE Login = '"+login+"'  LIMIT 1");
-            log.next();
+            st = con.createStatement();
 
-            if (login.matches(log.getString("Login"))){
+            resultSet = st.executeQuery("SELECT `Login`, `user_id`,`admin` FROM `user` WHERE Login = '"+login+"'  LIMIT 1");
+            resultSet.next();
 
-                if(Integer.parseInt(log.getString("admin")) == 1){
+            if (login.matches(resultSet.getString("Login"))){
+
+                if(Integer.parseInt(resultSet.getString("admin")) == 1){
 
                     System.out.println("You\'re admin");
                     return adminUser = true;
 
-                } else if (Integer.parseInt(log.getString("admin")) == 0){
+                } else if (Integer.parseInt(resultSet.getString("admin")) == 0){
 
                     System.out.println("You\'re normal user");
                     return adminUser = false;
@@ -68,16 +71,15 @@ public class Login {
         try {
 
             setConnection();
-            Statement st;
 
             st = con.createStatement();
-            ResultSet log = st.executeQuery("SELECT * FROM `user` ");
+            resultSet = st.executeQuery("SELECT * FROM `user` ");
             String checkLogin = "";
 
             while (!checkLogin.matches(login)){
 
-                log.next();
-                checkLogin = log.getString("Login");
+                resultSet.next();
+                checkLogin = resultSet.getString("Login");
 
         }
             return checkLogin.matches(login);
@@ -94,17 +96,18 @@ public class Login {
     private void signIn(){
         try {
             setConnection();
-            Statement st = con.createStatement();
+
+            st = con.createStatement();
 
 
             if (loginExist()){
 
-                ResultSet log = st.executeQuery("SELECT * FROM `user` WHERE Login = '"+login+"' LIMIT 1");
-                log.next();
+                resultSet = st.executeQuery("SELECT * FROM `user` WHERE Login = '"+login+"' LIMIT 1");
+                resultSet.next();
 
-                if (login.matches(log.getString("Login"))) {
+                if (login.matches(resultSet.getString("Login"))) {
 
-                    if (password.matches(log.getString("password"))){
+                    if (password.matches(resultSet.getString("password"))){
                         System.out.println("Success");
                         checkUser();
                     } else {
@@ -130,14 +133,14 @@ public class Login {
     private void createUser(String login, String password){
 
         setConnection();
-        Statement st;
+
         this.login = login;
         this.password = password;
         try {
             loginAlreadyExist = false;
             loginExist();
             st = con.createStatement();
-            ResultSet resultSet = st.executeQuery("SELECT * FROM `user`");
+            resultSet = st.executeQuery("SELECT * FROM `user`");
             userId = 100001;
 
             while (resultSet.next()){
@@ -186,6 +189,33 @@ public class Login {
             sqlException.printStackTrace();
         } // end catch
         // end catch
+
+    }
+    public void closeConnection()
+    {
+        // ensure resultSet, statement and connection are closed
+        try
+        {
+            if(st != null)
+            {
+                st.close();
+            }
+
+            if(resultSet != null)
+            {
+                resultSet.close();
+            }
+
+            if(con != null)
+            {
+                con.close();
+            }
+
+        } // end try
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
+        } // end catch
 
     }
     public static void main(String[] args) {
