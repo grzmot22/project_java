@@ -102,9 +102,9 @@ public class Hotel {
 
     private boolean reservationExist(){
 
-        try {
+        setConnection();
 
-            setConnection();
+        try {
 
             statement = con.createStatement();
             resultSet = statement.executeQuery("SELECT * FROM `reservations` ");
@@ -191,6 +191,31 @@ public class Hotel {
     }
 
     private void getFreeRooms() {
+
+        setConnection();
+        StringBuilder rooms = new StringBuilder();
+        try {
+
+            statement = con.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM `rooms` WHERE status = 'free'");
+
+            ResultSetMetaData metaData = resultSet.getMetaData();
+            int numOfCol = metaData.getColumnCount();
+
+            while (resultSet.next()) {
+
+                for (int i = 1; i < numOfCol; i++) {
+
+                    rooms.append(resultSet.getObject(i).toString()).append('\t');
+
+                }
+                rooms.append('\n');
+            }
+            System.out.println(rooms.toString());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void bookRoom() {
@@ -216,8 +241,9 @@ public class Hotel {
 
         Hotel test = new Hotel(100001,204);
 //        test.checkBooking();)
-        test.createBooking(1, Date.valueOf("2017-04-30"),Date.valueOf("2017-05-19"),1);
+//        test.createBooking(1, Date.valueOf("2017-04-30"),Date.valueOf("2017-05-19"),1);
 //        System.out.println(test.reservationExist());
+        test.getFreeRooms();
 
     }
 }
