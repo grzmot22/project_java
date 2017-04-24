@@ -37,7 +37,9 @@ public class Hotel {
         this.roomNo = roomNo;
 
     }
-    public Hotel() {}
+    public Hotel() {
+        roomNo = 100;
+    }
 
     public Hotel(int userId, int roomNo) {
         this.userId = userId;
@@ -185,7 +187,12 @@ public class Hotel {
                 System.out.println("Reservation already exist");
 
             } else if (!reservationExist() && !reservationIdAlreadyExist){
-                bookRoom(roomType);
+                if(roomNo != 100){
+                    bookRoom(roomType, roomNo);
+                } else {
+                    bookRoom(roomType);
+                }
+
                 if (roomNo != 100){
 
                     statement.executeUpdate("INSERT INTO `reservations` (`reservation_id`, `room_no`, `user_id`, `start_date`,`end_date`,`paid_status`) " +
