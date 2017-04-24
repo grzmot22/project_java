@@ -3,6 +3,7 @@ package Test;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.*;
+import java.util.Objects;
 
 /**
  * Created by Grzmot22 on 2017-04-23.
@@ -38,19 +39,28 @@ public class Hotel {
 
             statement = con.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM `reservations` WHERE reservation_id = '" + reservationId + "'");
-            while (resultSet.next()) {
+                while (resultSet.next()) {
 
-                ResultSetMetaData metaData = resultSet.getMetaData();
+                    ResultSetMetaData metaData = resultSet.getMetaData();
 
-                int numOfCol = metaData.getColumnCount();
-                for (int i = 1; i < numOfCol; i++) {
+                    int numOfCol = metaData.getColumnCount();
+                    for (int i = 1; i < numOfCol; i++) {
 
-                    book.append(resultSet.getObject(i).toString()).append('\t');
-//                    System.out.println(book.toString());
+                        book.append(resultSet.getObject(i).toString()).append('\t');
+    //                    System.out.println(book.toString());
+                    }
+
+                }
+                if (Objects.equals(book.toString(), "")){
+
+                    return "reservation id not exist";
+
+                }else {
+
+                    return book.toString();
+
                 }
 
-            }
-            return book.toString();
 
         } catch (SQLException e) {
             e.printStackTrace();
