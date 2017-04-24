@@ -186,6 +186,7 @@ public class Hotel {
 
 
     private String getBookedRooms() {
+
         return "test";
     }
 

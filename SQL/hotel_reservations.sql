@@ -10,3 +10,4 @@ INSERT INTO hotel.reservations (reservation_id, room_no, user_id, start_date, en
 INSERT INTO hotel.reservations (reservation_id, room_no, user_id, start_date, end_date, paid_status) VALUES (10, 201, 100010, '2017-06-07', '2017-06-16', '0');
 INSERT INTO hotel.reservations (reservation_id, room_no, user_id, start_date, end_date, paid_status) VALUES (11, 202, 100010, '2017-07-11', '2017-08-03', '0');
 INSERT INTO hotel.reservations (reservation_id, room_no, user_id, start_date, end_date, paid_status) VALUES (12, 203, 100011, '2017-05-19', '2017-06-13', '0');
+INSERT INTO hotel.reservations (reservation_id, room_no, user_id, start_date, end_date, paid_status) VALUES (13, 204, 1, '2017-04-30', '2017-05-19', '1');
