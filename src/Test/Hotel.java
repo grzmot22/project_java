@@ -174,10 +174,16 @@ public class Hotel {
 
             } else if (!reservationExist() && !reservationIdAlreadyExist){
                 bookRoom(roomType);
-                statement.executeUpdate("INSERT INTO `reservations` (`reservation_id`, `room_no`, `user_id`, `start_date`,`end_date`,`paid_status`) " +
-                        "VALUES ('"+reservationId+"', '"+roomNo+"', '"+userId+"', '"+startDate+"', '"+endDate+"', '"+paidStatus+"')");
-                System.out.println("Reservation has been created \n Reservation ID: "+reservationId+"\n Room No: "+roomNo+"\n UserId: "+userId
-                        +"\n Start date : "+startDate+"\n End date: "+endDate +"\n Payment status: "+paidStatus);
+                if (roomNo != 100){
+
+                    statement.executeUpdate("INSERT INTO `reservations` (`reservation_id`, `room_no`, `user_id`, `start_date`,`end_date`,`paid_status`) " +
+                            "VALUES ('"+reservationId+"', '"+roomNo+"', '"+userId+"', '"+startDate+"', '"+endDate+"', '"+paidStatus+"')");
+                    System.out.println("Reservation has been created \n Reservation ID: "+reservationId+"\n Room No: "+roomNo+"\n UserId: "+userId
+                            +"\n Start date : "+startDate+"\n End date: "+endDate +"\n Payment status: "+paidStatus);
+                } else {
+                    System.out.println("All " + roomType + " rooms booked");
+                }
+;
 
             }
 
@@ -252,10 +258,9 @@ public class Hotel {
     private void bookRoom(String roomType) {
         try {
             roomAlreadyBooked = false;
-            reservationExist();
             statement = con.createStatement();
             resultSet = statement.executeQuery("SELECT * FROM `rooms` WHERE type ='"+roomType+"' AND booked = 0 ORDER BY room_no");
-            roomNo = 101;
+            roomNo = 100;
 
             while (resultSet.next()){
 
@@ -265,12 +270,18 @@ public class Hotel {
                     if (roomNo != currentRoomNo){
                         roomNo = currentRoomNo;
 
-                    }else if (roomNo == currentRoomNo){
+                        statement.executeUpdate("UPDATE `rooms` SET `booked` = '1', `reservation_id` = '"+reservationId+"' WHERE room_no = '"+roomNo+"'");
+                        System.out.println("Room has been booked \n  Room No: "+roomNo+"\n Room type: "+roomType+"\n reservation ID: "+reservationId);
+
+                    }else if (roomNo == currentRoomNo && roomNo != 100){
 
                         statement.executeUpdate("UPDATE `rooms` SET `booked` = '1', `reservation_id` = '"+reservationId+"' WHERE room_no = '"+roomNo+"'");
                         System.out.println("Room has been booked \n  Room No: "+roomNo+"\n Room type: "+roomType+"\n reservation ID: "+reservationId);
 
                     }
+
+                }else if (roomNo == 100) {
+                    System.out.println("All " + roomType + " rooms booked");
                 }
             }
 
@@ -353,8 +364,8 @@ public class Hotel {
 
         Hotel test = new Hotel(100002,204);
 //        test.checkBooking();)
-//        test.createBooking(100001,"single", Date.valueOf("2017-04-30"),Date.valueOf("2017-05-19"),1);
-        test.bookRoom("single");
+        test.createBooking(100001,"single", Date.valueOf("2017-04-30"),Date.valueOf("2017-05-19"),1);
+//        test.bookRoom("single");
 //        System.out.println(test.reservationExist());
 //        test.getFreeRooms();
 //        test.getBookedRooms();
