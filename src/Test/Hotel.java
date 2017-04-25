@@ -119,7 +119,7 @@ public class Hotel {
         }
         return false;
     }
-    private void createBooking(int userId, String roomType, Date startDate, Date endDate, int paidStatus) {
+    public void createBooking(int userId, String roomType, Date startDate, Date endDate, int paidStatus) {
 
         this.userId = userId;
         this.startDate = startDate;
@@ -130,7 +130,7 @@ public class Hotel {
         jdbc.setConnection();
         createReservation(userId, roomType);
     }
-    private void createBooking(String roomType, Date startDate, Date endDate, int paidStatus) {
+    public void createBooking(String roomType, Date startDate, Date endDate, int paidStatus) {
 
         this.startDate = startDate;
         this.endDate = endDate;
@@ -140,7 +140,7 @@ public class Hotel {
         jdbc.setConnection();
         createReservation(this.userId, roomType);
     }
-    private void createBooking(int roomNo, Date startDate, Date endDate, int paidStatus) {
+    public void createBooking(int roomNo, Date startDate, Date endDate, int paidStatus) {
 
         this.startDate = startDate;
         this.endDate = endDate;
@@ -209,7 +209,7 @@ public class Hotel {
 
 
 
-    private String getBookedRooms() {
+    public String getBookedRooms() {
 
         jdbc.setConnection();
         StringBuilder rooms = new StringBuilder();
@@ -237,7 +237,7 @@ public class Hotel {
         return rooms.toString();
     }
 
-    private String getFreeRooms() {
+    public String getFreeRooms() {
 
         jdbc.setConnection();
         StringBuilder rooms = new StringBuilder();
