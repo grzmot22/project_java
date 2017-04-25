@@ -11,17 +11,7 @@ public class Login {
     private int userId;
     private boolean adminUser;
     private boolean loginAlreadyExist;
-    private Statement st;
-    private ResultSet resultSet;
-
-    // MySQL database stuff
-    private static final String DRIVER = "com.mysql.jdbc.Driver"; // JDBC driver
-    private static final String DATABASE = "hotel"; // the database name
-    //    static final String HOST = "10.1.63.200"; // the database host IP
-    private static final String HOST = "localhost"; // the database host IP
-    private static final String DATABASE_URL =
-            "jdbc:mysql://" + HOST + "/" + DATABASE;
-    private Connection con = null;
+    private ReservationJDBC jdbc = new ReservationJDBC();
 
     public Login (String login, String password) {
         this.login = login;
@@ -33,21 +23,21 @@ public class Login {
      */
     private boolean checkUser(){
         try {
-            setConnection();
+            jdbc.setConnection();
 
-            st = con.createStatement();
+            jdbc.statement = jdbc.con.createStatement();
 
-            resultSet = st.executeQuery("SELECT `Login`, `user_id`,`admin` FROM `user` WHERE Login = '"+login+"'  LIMIT 1");
-            resultSet.next();
+            jdbc.resultSet = jdbc.statement.executeQuery("SELECT `Login`, `user_id`,`admin` FROM `user` WHERE Login = '"+login+"'  LIMIT 1");
+            jdbc.resultSet.next();
 
-            if (login.matches(resultSet.getString("Login"))){
+            if (login.matches(jdbc.resultSet.getString("Login"))){
 
-                if(Integer.parseInt(resultSet.getString("admin")) == 1){
+                if(Integer.parseInt(jdbc.resultSet.getString("admin")) == 1){
 
                     System.out.println("You\'re admin");
                     return adminUser = true;
 
-                } else if (Integer.parseInt(resultSet.getString("admin")) == 0){
+                } else if (Integer.parseInt(jdbc.resultSet.getString("admin")) == 0){
 
                     System.out.println("You\'re normal user");
                     return adminUser = false;
@@ -70,16 +60,16 @@ public class Login {
 
         try {
 
-            setConnection();
+            jdbc.setConnection();
 
-            st = con.createStatement();
-            resultSet = st.executeQuery("SELECT * FROM `user` ");
+            jdbc.statement = jdbc.con.createStatement();
+            jdbc.resultSet = jdbc.statement.executeQuery("SELECT * FROM `user` ");
             String checkLogin = "";
 
             while (!checkLogin.matches(login)){
 
-                resultSet.next();
-                checkLogin = resultSet.getString("Login");
+                jdbc.resultSet.next();
+                checkLogin = jdbc.resultSet.getString("Login");
 
         }
             return checkLogin.matches(login);
@@ -95,19 +85,19 @@ public class Login {
      */
     private void signIn(){
         try {
-            setConnection();
+            jdbc.setConnection();
 
-            st = con.createStatement();
+            jdbc.statement = jdbc.con.createStatement();
 
 
             if (loginExist()){
 
-                resultSet = st.executeQuery("SELECT * FROM `user` WHERE Login = '"+login+"' LIMIT 1");
-                resultSet.next();
+                jdbc.resultSet = jdbc.statement.executeQuery("SELECT * FROM `user` WHERE Login = '"+login+"' LIMIT 1");
+                jdbc.resultSet.next();
 
-                if (login.matches(resultSet.getString("Login"))) {
+                if (login.matches(jdbc.resultSet.getString("Login"))) {
 
-                    if (password.matches(resultSet.getString("password"))){
+                    if (password.matches(jdbc.resultSet.getString("password"))){
                         System.out.println("Success");
                         checkUser();
                     } else {
@@ -132,19 +122,19 @@ public class Login {
      */
     private void createUser(String login, String password){
 
-        setConnection();
+        jdbc.setConnection();
 
         this.login = login;
         this.password = password;
         try {
             loginAlreadyExist = false;
             loginExist();
-            st = con.createStatement();
-            resultSet = st.executeQuery("SELECT * FROM `user`");
+            jdbc.statement = jdbc.con.createStatement();
+            jdbc.resultSet = jdbc.statement.executeQuery("SELECT * FROM `user`");
             userId = 100001;
 
-            while (resultSet.next()){
-                int currentUserId = resultSet.getInt("user_id");
+            while (jdbc.resultSet.next()){
+                int currentUserId = jdbc.resultSet.getInt("user_id");
                 if(currentUserId >= 0 && currentUserId <= 10){
                     currentUserId = userId;
                 }else if (currentUserId > 100000){
@@ -160,7 +150,7 @@ public class Login {
 
             } else if (!loginExist() && !loginAlreadyExist){
 
-                st.executeUpdate("INSERT INTO `user` (`Login`, `password`, `user_id`, `admin`) VALUES ('"+login+"', '"+password+"', '"+userId+"', '0')");
+                jdbc.statement.executeUpdate("INSERT INTO `user` (`Login`, `password`, `user_id`, `admin`) VALUES ('"+login+"', '"+password+"', '"+userId+"', '0')");
                 System.out.println("Account has been created \n Login: "+login+"\n Pass: "+password+"\nUserId: "+userId);
 
             }
@@ -174,50 +164,7 @@ public class Login {
 
 
     }
-    private void setConnection()
-    {
-        // connect to database
-        try
-        {
-            // load the driver class
-            Class.forName(DRIVER);
-            // establish connection to database
-            con =  DriverManager.getConnection(DATABASE_URL, "root", "");
-        }
-        catch (SQLException | ClassNotFoundException sqlException)
-        {
-            sqlException.printStackTrace();
-        } // end catch
-        // end catch
 
-    }
-    public void closeConnection()
-    {
-        // ensure resultSet, statement and connection are closed
-        try
-        {
-            if(st != null)
-            {
-                st.close();
-            }
-
-            if(resultSet != null)
-            {
-                resultSet.close();
-            }
-
-            if(con != null)
-            {
-                con.close();
-            }
-
-        } // end try
-        catch (Exception exception)
-        {
-            exception.printStackTrace();
-        } // end catch
-
-    }
     public static void main(String[] args) {
 
        Login test = new Login("admin","admin");
