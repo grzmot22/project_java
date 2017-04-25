@@ -21,6 +21,7 @@ public class ReservationClient extends JFrame{
     private JTextField paidStatusTextField;
     private JTextArea area;
     private JPanel mainPanel;
+    private JLabel userIdLtl;
 
     /**
      * Constructor for objects of class JFrame4
@@ -86,6 +87,10 @@ public class ReservationClient extends JFrame{
 
     public JTextField getUserIDTextField() {
         return userIDTextField;
+    }
+
+    public JLabel getUserIdLtl() {
+        return userIdLtl;
     }
 
     public void setPaidStatusTextField(JTextField paidStatusTextField) {

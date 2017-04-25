@@ -1,5 +1,6 @@
 package Test.gui.controler;
 
+import Test.Hotel;
 import Test.Login;
 import Test.gui.view.ReservationClient;
 
@@ -28,6 +29,7 @@ public class ReservationClientController {
     private JButton bookedRoomsButton;
     private JButton freeRoomsButton;
     private JButton checkMyBookingButton;
+    private JLabel userIdLtl;
     private JTextArea area;
     private Login login;
     private ObjectOutputStream output;
@@ -45,6 +47,7 @@ public class ReservationClientController {
 
     public ReservationClientController showMainFrameWindow(boolean adminMode) {
         this.adminMode = adminMode;
+        runClient();
         if (adminMode){
             initComponents();
             mFrame.setTitle("Administrator panel Reservation System");
@@ -76,9 +79,11 @@ public class ReservationClientController {
         freeRoomsButton = mFrame.getFreeRoomsButton();
         checkMyBookingButton = mFrame.getCheckMyBookingButton();
 
+        userIDTextField.setEditable(adminMode);
         freeRoomsButton.setVisible(adminMode);
         bookedRoomsButton.setVisible(adminMode);
         area = mFrame.getArea();
+        userIdLtl = mFrame.getUserIdLtl();
 
 
     }
@@ -94,7 +99,13 @@ public class ReservationClientController {
     private class checkMyBookingButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            message = reservationIDTextField.getText();
 
+//            Hotel hotel = new Hotel(message,bal);
+//            acc.setCreditLimit(2*bal);
+
+//            message = acc.toString();
+            sendData("createBooking "+message);
         }
     }
 
