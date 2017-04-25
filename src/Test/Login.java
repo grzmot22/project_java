@@ -99,6 +99,7 @@ public class Login {
                     if (password.matches(jdbc.resultSet.getString("password"))){
                         System.out.println("Success");
                          checkUser();
+                         userId = jdbc.resultSet.getInt("user_id");
                          if (adminUser){
 
                          }
@@ -168,7 +169,10 @@ public class Login {
         }
         return "";
 
+    }
 
+    public int getUserId() {
+        return userId;
     }
 
     public static void main(String[] args) {
