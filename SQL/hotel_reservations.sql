@@ -10,4 +10,17 @@ INSERT INTO hotel.reservations (reservation_id, room_no, user_id, start_date, en
 INSERT INTO hotel.reservations (reservation_id, room_no, user_id, start_date, end_date, paid_status) VALUES (10, 201, 100010, '2017-06-07', '2017-06-16', '0');
 INSERT INTO hotel.reservations (reservation_id, room_no, user_id, start_date, end_date, paid_status) VALUES (11, 202, 100010, '2017-07-11', '2017-08-03', '0');
 INSERT INTO hotel.reservations (reservation_id, room_no, user_id, start_date, end_date, paid_status) VALUES (12, 203, 100011, '2017-05-19', '2017-06-13', '0');
+INSERT INTO hotel.reservations (reservation_id, room_no, user_id, start_date, end_date, paid_status) VALUES (15, 408, 100001, '2017-04-30', '2017-05-19', '1');
+INSERT INTO hotel.reservations (reservation_id, room_no, user_id, start_date, end_date, paid_status) VALUES (14, 409, 100001, '2017-04-30', '2017-05-19', '1');
 INSERT INTO hotel.reservations (reservation_id, room_no, user_id, start_date, end_date, paid_status) VALUES (13, 204, 1, '2017-04-30', '2017-05-19', '1');
+INSERT INTO hotel.reservations (reservation_id, room_no, user_id, start_date, end_date, paid_status) VALUES (16, 308, 100001, '2017-04-30', '2017-05-19', '1');
+INSERT INTO hotel.reservations (reservation_id, room_no, user_id, start_date, end_date, paid_status) VALUES (17, 307, 100001, '2017-04-30', '2017-05-19', '1');
+INSERT INTO hotel.reservations (reservation_id, room_no, user_id, start_date, end_date, paid_status) VALUES (18, 100, 100001, '2017-04-30', '2017-05-19', '1');
+INSERT INTO hotel.reservations (reservation_id, room_no, user_id, start_date, end_date, paid_status) VALUES (19, 205, 100001, '2017-04-30', '2017-05-19', '1');
+INSERT INTO hotel.reservations (reservation_id, room_no, user_id, start_date, end_date, paid_status) VALUES (20, 206, 100001, '2017-04-30', '2017-05-19', '1');
+INSERT INTO hotel.reservations (reservation_id, room_no, user_id, start_date, end_date, paid_status) VALUES (21, 305, 100001, '2017-04-30', '2017-05-19', '1');
+INSERT INTO hotel.reservations (reservation_id, room_no, user_id, start_date, end_date, paid_status) VALUES (22, 303, 100001, '2017-04-30', '2017-05-19', '1');
+INSERT INTO hotel.reservations (reservation_id, room_no, user_id, start_date, end_date, paid_status) VALUES (24, 304, 100001, '2017-04-30', '2017-05-19', '1');
+INSERT INTO hotel.reservations (reservation_id, room_no, user_id, start_date, end_date, paid_status) VALUES (23, 302, 100001, '2017-04-30', '2017-05-19', '1');
+INSERT INTO hotel.reservations (reservation_id, room_no, user_id, start_date, end_date, paid_status) VALUES (25, 401, 100001, '2017-04-30', '2017-05-19', '1');
+INSERT INTO hotel.reservations (reservation_id, room_no, user_id, start_date, end_date, paid_status) VALUES (26, 301, 100001, '2017-04-30', '2017-05-19', '1');
