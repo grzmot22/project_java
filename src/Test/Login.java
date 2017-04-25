@@ -20,7 +20,7 @@ public class Login {
     /**
      This method check user's permission
      */
-    private boolean checkUser(){
+    public boolean checkUser(){
         try {
             jdbc.setConnection();
 
@@ -100,9 +100,7 @@ public class Login {
                         System.out.println("Success");
                          checkUser();
                          userId = jdbc.resultSet.getInt("user_id");
-                         if (adminUser){
 
-                         }
                         return "Success";
                     } else {
                         System.out.println("Failed");
@@ -161,7 +159,7 @@ public class Login {
                 System.out.println("Account has been created \n Login: "+login+"\n Pass: "+password+"\nUserId: "+userId);
                 return "Account has been created";
             }
-
+            userId = 999999;
         } catch (SQLException e) {
 
             e.printStackTrace();
