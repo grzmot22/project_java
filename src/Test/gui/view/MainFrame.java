@@ -68,4 +68,9 @@ public class MainFrame extends JFrame{
     public JPasswordField getPasswordField() {
         return passwordField;
     }
+
+    @Override
+    public void setVisible(boolean b) {
+        super.setVisible(b);
+    }
 }
