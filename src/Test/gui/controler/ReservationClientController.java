@@ -89,7 +89,7 @@ public class ReservationClientController {
     }
 
     private void initListeners() {
-//        loginBtn.addActionListener(new ReservationClientController().loginBtnLister());
+
         checkMyBookingButton.addActionListener(new checkMyBookingButtonListener());
         freeRoomsButton.addActionListener(new freeRoomsButtonLister());
         createBookingButton.addActionListener(new createBookingButtonListener());
