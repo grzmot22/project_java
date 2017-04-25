@@ -16,7 +16,6 @@ public class Login {
     public Login (String login, String password) {
         this.login = login;
         this.password = password;
-        userId = 999999;
     }
     /**
      This method check user's permission
@@ -83,7 +82,7 @@ public class Login {
     /**
      * Method check login and password and login user
      */
-    private void signIn(){
+    public String signIn(){
         try {
             jdbc.setConnection();
 
@@ -99,20 +98,26 @@ public class Login {
 
                     if (password.matches(jdbc.resultSet.getString("password"))){
                         System.out.println("Success");
-                        checkUser();
+                         checkUser();
+                         if (adminUser){
+
+                         }
+                        return "Success";
                     } else {
                         System.out.println("Failed");
                         System.out.println("Login or password are not correct");
+                        return "Failed. \nLogin or password are not correct";
                     }
                 }
             } else {
                 System.out.println("Login or password are not correct");
+                return "Login or password are not correct";
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+        return "Login or password are not correct";
     }
 
     /**
@@ -120,7 +125,7 @@ public class Login {
      * @param login
      * @param password
      */
-    private void createUser(String login, String password){
+    public String createUser(String login, String password){
 
         jdbc.setConnection();
 
@@ -147,12 +152,13 @@ public class Login {
             if (loginExist()){
                 loginAlreadyExist = true;
                 System.out.println("Login already exist");
+                return "Login already exist";
 
             } else if (!loginExist() && !loginAlreadyExist){
 
                 jdbc.statement.executeUpdate("INSERT INTO `user` (`Login`, `password`, `user_id`, `admin`) VALUES ('"+login+"', '"+password+"', '"+userId+"', '0')");
                 System.out.println("Account has been created \n Login: "+login+"\n Pass: "+password+"\nUserId: "+userId);
-
+                return "Account has been created";
             }
 
         } catch (SQLException e) {
@@ -160,14 +166,14 @@ public class Login {
             e.printStackTrace();
 
         }
-
+        return "";
 
 
     }
 
     public static void main(String[] args) {
 
-       Login test = new Login("admin","admin");
+//       Login test = new Login("","");
 
 //        test.signIn();
 //        test.checkUser();

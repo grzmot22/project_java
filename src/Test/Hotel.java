@@ -391,7 +391,6 @@ public class Hotel {
 
 
     public static void main(String[] args) {
-
         Hotel test = new Hotel(100001,405);
 //        test.checkBooking();)
         test.createBooking(305, Date.valueOf("2017-04-30"),Date.valueOf("2017-05-19"),1);
