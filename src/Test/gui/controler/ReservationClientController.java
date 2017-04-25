@@ -1,7 +1,6 @@
 package Test.gui.controler;
 
 import Test.Login;
-import Test.gui.view.MainFrame;
 import Test.gui.view.ReservationClient;
 
 import javax.swing.*;
@@ -36,6 +35,7 @@ public class ReservationClientController {
     private String message = "";
     private String server;
     private Socket client;
+    protected boolean adminMode;
 
 
     public ReservationClientController() {
@@ -43,8 +43,22 @@ public class ReservationClientController {
         initListeners();
     }
 
-    public void showMainFrameWindow() {
-        mFrame.setVisible(true);
+    public ReservationClientController showMainFrameWindow(boolean adminMode) {
+        this.adminMode = adminMode;
+        if (adminMode){
+            initComponents();
+            mFrame.setTitle("Administrator panel Reservation System");
+
+            mFrame.setVisible(true);
+        }else {
+
+            this.adminMode = false;
+
+            mFrame.setVisible(true);
+
+        }
+
+        return null;
     }
 
     private void initComponents() {
@@ -62,6 +76,8 @@ public class ReservationClientController {
         freeRoomsButton = mFrame.getFreeRoomsButton();
         checkMyBookingButton = mFrame.getCheckMyBookingButton();
 
+        freeRoomsButton.setVisible(adminMode);
+        bookedRoomsButton.setVisible(adminMode);
         area = mFrame.getArea();
 
 

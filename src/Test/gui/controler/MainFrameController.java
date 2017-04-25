@@ -5,6 +5,7 @@ package Test.gui.controler;
  */
 import Test.Login;
 import Test.gui.view.MainFrame;
+import Test.gui.view.ReservationClient;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -41,6 +42,7 @@ public class MainFrameController {
         loginField = mainFrame.getLoginField();
         passwordLbl = mainFrame.getPasswordLbl();
         passwordField = mainFrame.getPasswordField();
+        infoLbl = mainFrame.getInfoLbl();
 
     }
 
@@ -56,11 +58,21 @@ public class MainFrameController {
                 login = new Login(loginField.getText(),String.copyValueOf(passwordField.getPassword()));
                 String log = login.signIn();
                 if (log.matches("Success")){
-                    infoLbl.setText(log);
+                    infoLbl.setText(log.toString());
+                    JOptionPane.showMessageDialog(null,"Welcome back "+loginField.getText()+"!","Reservation System",JOptionPane.INFORMATION_MESSAGE);
+                    mainFrame.setVisible(false);
+                    boolean adminMode = login.checkUser();
+                    if (adminMode){
+                        JOptionPane.showMessageDialog(null,"Admin mode","Reservation System",JOptionPane.INFORMATION_MESSAGE);
+                        ReservationClientController clientController = new ReservationClientController().showMainFrameWindow(adminMode);
+//                        clientController.showMainFrameWindow(true);
+                    } else {
+                        ReservationClientController clientController = new ReservationClientController().showMainFrameWindow(adminMode);
+                    }
                 } else {
                     infoLbl.setText(log);
                 }
-;
+
             } catch (Exception ex){
                 ex.getMessage();
             }
@@ -83,5 +95,10 @@ public class MainFrameController {
                 ex.getMessage();
             }
         }
+    }
+
+    public static void main(String[] args) {
+        MainFrameController mainFrameController = new MainFrameController();
+        mainFrameController.showMainFrameWindow();
     }
 }
