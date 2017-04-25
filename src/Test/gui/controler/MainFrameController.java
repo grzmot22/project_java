@@ -23,6 +23,7 @@ public class MainFrameController {
     private JLabel infoLbl;
     private Login login;
 
+
     public MainFrameController() {
         initComponents();
         initListeners();
@@ -83,5 +84,4 @@ public class MainFrameController {
             }
         }
     }
-
 }
