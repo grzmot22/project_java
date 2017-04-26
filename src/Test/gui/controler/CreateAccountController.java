@@ -31,6 +31,14 @@ public class CreateAccountController {
     public void showMainFrameWindow() {
 
         mFrame.setVisible(true);
+
+
+    }
+
+
+    private void initComponents() {
+        mFrame = new CreateAccount();
+
         loginTextField = mFrame.getLoginTextField();
         passwordPasswordField = mFrame.getPasswordPasswordField();
         firstNameTextField = mFrame.getFirstNameTextField();
@@ -39,13 +47,7 @@ public class CreateAccountController {
         postcodeTextField = mFrame.getPostcodeTextField();
         emailTextField = mFrame.getEmailTextField();
         phoneTextField = mFrame.getPhoneTextField();
-
-    }
-
-
-    private void initComponents() {
-        mFrame = new CreateAccount();
-
+        createButton = mFrame.getCreateButton();
 
     }
     private void initListeners() {
@@ -58,7 +60,7 @@ public class CreateAccountController {
 
             try {
 
-                String create = login.createUser(loginTextField.getText(),passwordPasswordField.getPassword().toString(),
+                String create = login.createUser(loginTextField.getText(),String.copyValueOf(passwordPasswordField.getPassword()),
                         firstNameTextField.getText(),lastNameTextField.getText(),cityTextField.getText(),
                         postcodeTextField.getText(),emailTextField.getText(),phoneTextField.getText());
 
@@ -76,5 +78,9 @@ public class CreateAccountController {
             }
 
         }
+    }
+    public static void main(String[] args) {
+        CreateAccountController mainFrameController = new CreateAccountController();
+        mainFrameController.showMainFrameWindow();
     }
 }
