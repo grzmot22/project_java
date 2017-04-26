@@ -69,7 +69,8 @@ public class ReservationServer {
                 if (st[0].equals("createUser")){
                     String user = st[1];
                     String pass = st[2];
-                    String log = login.createUser(user,pass);
+                    String firstName = st[3], lastName = st[4], city= st[4], postcode= st[5], email= st[6], phone= st[7];
+                    String log = login.createUser(user,pass,firstName,lastName,city,postcode,email,phone);
                     sendData(log);
                 }
 

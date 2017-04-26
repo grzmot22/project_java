@@ -1,5 +1,6 @@
 package Test.gui.controler;
 
+import Test.Login;
 import Test.gui.view.CreateAccount;
 
 import javax.swing.*;
@@ -21,6 +22,7 @@ public class CreateAccountController {
     private JTextField phoneTextField;
     private JButton createButton;
     private CreateAccount mFrame;
+    private Login login;
 
     public CreateAccountController() {
         initComponents();
@@ -53,6 +55,25 @@ public class CreateAccountController {
     private class createButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+
+            try {
+
+                String create = login.createUser(loginTextField.getText(),passwordPasswordField.getPassword().toString(),
+                        firstNameTextField.getText(),lastNameTextField.getText(),cityTextField.getText(),
+                        postcodeTextField.getText(),emailTextField.getText(),phoneTextField.getText());
+
+                if (create.matches("Account has been created")){
+
+                    JOptionPane.showMessageDialog(null,"Account has been created. Now you can login.");
+
+                }else if (create.matches("Login already exist")){
+
+                    JOptionPane.showMessageDialog(null,"Login already exist. Try again.");
+
+                }
+            } catch (Exception ex){
+                ex.getMessage();
+            }
 
         }
     }

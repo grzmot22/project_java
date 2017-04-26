@@ -12,6 +12,8 @@ public class Login {
     private boolean adminUser;
     private boolean loginAlreadyExist;
     private ReservationJDBC jdbc = new ReservationJDBC();
+    private String firstName, lastName, city, postcode, email, phone;
+
 
     public Login (String login, String password) {
         this.login = login;
@@ -124,12 +126,19 @@ public class Login {
      * @param login
      * @param password
      */
-    public String createUser(String login, String password){
+    public String createUser(String login, String password, String firstName, String lastName, String city, String postcode, String email, String phone){
 
         jdbc.setConnection();
 
         this.login = login;
         this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.city = city;
+        this.email = email;
+        this.postcode = postcode;
+        this.phone = phone;
+
         try {
             loginAlreadyExist = false;
             loginExist();
@@ -155,7 +164,9 @@ public class Login {
 
             } else if (!loginExist() && !loginAlreadyExist){
 
-                jdbc.statement.executeUpdate("INSERT INTO `user` (`Login`, `password`, `user_id`, `admin`) VALUES ('"+login+"', '"+password+"', '"+userId+"', '0')");
+                jdbc.statement.executeUpdate("INSERT INTO `user` (Login, password, user_id, admin, first_name, last_name, city, postcode, email, phone) VALUES ('" + login + "', '" + password + "', '" + userId + "', '0'," +
+                        "'"+firstName+"','"+lastName+"','"+city+"','"+postcode+"','"+email+"','"+phone+"')");
+                
                 System.out.println("Account has been created \n Login: "+login+"\n Pass: "+password+"\nUserId: "+userId);
                 return "Account has been created";
             }

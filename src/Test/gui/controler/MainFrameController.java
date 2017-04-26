@@ -83,17 +83,7 @@ public class MainFrameController {
     private class CreateBtnLister implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            try {
-                String create = login.createUser(loginField.getText(),passwordField.getPassword().toString());
-                if (create.matches("Account has been created")){
-                    infoLbl.setText("Account has been created. Now you can login.");
-
-                }else if (create.matches("Login already exist")){
-                    infoLbl.setText("Login already exist. Try again.");
-                }
-            } catch (Exception ex){
-                ex.getMessage();
-            }
+            new CreateAccountController().showMainFrameWindow();
         }
     }
 
