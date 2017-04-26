@@ -19,6 +19,9 @@ public class Login {
         this.login = login;
         this.password = password;
     }
+    public Login() {
+
+    }
     /**
      This method check user's permission
      */

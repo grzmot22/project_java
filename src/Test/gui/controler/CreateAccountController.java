@@ -22,7 +22,7 @@ public class CreateAccountController {
     private JTextField phoneTextField;
     private JButton createButton;
     private CreateAccount mFrame;
-    private Login login;
+    private Login login = new Login();
 
     public CreateAccountController() {
         initComponents();
@@ -67,7 +67,7 @@ public class CreateAccountController {
                 if (create.matches("Account has been created")){
 
                     JOptionPane.showMessageDialog(null,"Account has been created. Now you can login.");
-
+                    mFrame.setVisible(false);
                 }else if (create.matches("Login already exist")){
 
                     JOptionPane.showMessageDialog(null,"Login already exist. Try again.");
