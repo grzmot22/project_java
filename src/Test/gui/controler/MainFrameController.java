@@ -23,6 +23,7 @@ public class MainFrameController {
     private JLabel welLbl;
     private JLabel infoLbl;
     private Login login;
+    private int userId;
 
 
     public MainFrameController() {
@@ -33,6 +34,7 @@ public class MainFrameController {
     public void showMainFrameWindow() {
         mainFrame.setVisible(true);
     }
+
 
     private void initComponents() {
         mainFrame = new MainFrame();
@@ -61,13 +63,14 @@ public class MainFrameController {
                     infoLbl.setText(log.toString());
                     JOptionPane.showMessageDialog(null,"Welcome back "+loginField.getText()+"!","Reservation System",JOptionPane.INFORMATION_MESSAGE);
                     mainFrame.setVisible(false);
+                    userId = login.getUserId();
                     boolean adminMode = login.checkUser();
                     if (adminMode){
                         JOptionPane.showMessageDialog(null,"Admin mode","Reservation System",JOptionPane.INFORMATION_MESSAGE);
-                        ReservationClientController clientController = new ReservationClientController().showMainFrameWindow(adminMode);
+                        ReservationClientController clientController = new ReservationClientController().showMainFrameWindow(adminMode,userId);
 //                        clientController.showMainFrameWindow(true);
                     } else {
-                        ReservationClientController clientController = new ReservationClientController().showMainFrameWindow(adminMode);
+                        ReservationClientController clientController = new ReservationClientController().showMainFrameWindow(adminMode,userId);
                     }
                 } else {
                     infoLbl.setText(log);

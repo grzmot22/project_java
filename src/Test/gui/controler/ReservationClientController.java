@@ -45,19 +45,24 @@ public class ReservationClientController {
         initListeners();
     }
 
-    public ReservationClientController showMainFrameWindow(boolean adminMode) {
+    public ReservationClientController showMainFrameWindow(boolean adminMode,int userId) {
         this.adminMode = adminMode;
-        runClient();
+        String sUserId = String.valueOf(userId);
+
         if (adminMode){
             initComponents();
             mFrame.setTitle("Administrator panel Reservation System");
-
+            userIdLtl.setText(sUserId);
             mFrame.setVisible(true);
-        }else {
 
+//            runClient();
+        }else {
+            userIDTextField.setText(sUserId);
+            userIdLtl.setText(sUserId);
             this.adminMode = false;
 
             mFrame.setVisible(true);
+//            runClient();
 
         }
 
