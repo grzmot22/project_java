@@ -52,13 +52,13 @@ public class ReservationClientController {
         if (adminMode){
             initComponents();
             mFrame.setTitle("Administrator panel Reservation System");
-            userIdLtl.setText(sUserId);
+            userIdLtl.setText("User ID: " + sUserId);
             mFrame.setVisible(true);
 
 //            runClient();
         }else {
             userIDTextField.setText(sUserId);
-            userIdLtl.setText(sUserId);
+            userIdLtl.setText("User ID: " + sUserId);
             this.adminMode = false;
 
             mFrame.setVisible(true);
