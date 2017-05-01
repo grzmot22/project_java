@@ -1,0 +1,5 @@
+// TODO: 2017-04-25 zrobic metode ktora sprawdza dzien i jesli sie pokrywa z dniem dzisiejszym zmienia status pokoju z free na in use
+// todo aplikacja server i klient
+//todo napisac metody do usuwania reserwacji
+//todo napisac listernery do buttonow
+// TODO: 2017-04-25 finish listener createAcc
