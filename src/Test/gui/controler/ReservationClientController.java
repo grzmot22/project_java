@@ -38,11 +38,12 @@ public class ReservationClientController {
     private String server;
     private Socket client;
     protected boolean adminMode;
+    private Hotel hotel = new Hotel();
 
 
     public ReservationClientController() {
-        initComponents();
-        initListeners();
+//        initComponents();
+//        initListeners();
     }
 
     public ReservationClientController showMainFrameWindow(boolean adminMode,int userId) {
@@ -51,12 +52,15 @@ public class ReservationClientController {
 
         if (adminMode){
             initComponents();
+            initListeners();
             mFrame.setTitle("Administrator panel Reservation System");
             userIdLtl.setText("User ID: " + sUserId);
             mFrame.setVisible(true);
 
 //            runClient();
-        }else {
+        }else if (!adminMode){
+            initComponents();
+            initListeners();
             userIDTextField.setText(sUserId);
             userIdLtl.setText("User ID: " + sUserId);
             this.adminMode = false;
@@ -110,13 +114,17 @@ public class ReservationClientController {
 //            acc.setCreditLimit(2*bal);
 
 //            message = acc.toString();
-            sendData("createBooking "+message);
+//            sendData("createBooking "+message);
         }
     }
 
     private class freeRoomsButtonLister implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            System.out.println("free");
+            hotel.getFreeRooms();
+            area.append("Room No  Type   Status  Booked\n");
+            area.append(hotel.getFreeRooms());
 
         }
     }
@@ -124,14 +132,14 @@ public class ReservationClientController {
     private class createBookingButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            System.out.println("create");
         }
     }
 
     private class bookedRoomsButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            System.out.println("boooked");
         }
     }
     public void runClient()
@@ -235,6 +243,9 @@ public class ReservationClientController {
 
     }
 
+    public static void main(String[] args) {
+        ReservationClientController reservationClientController = new ReservationClientController().showMainFrameWindow(true,0);
+    }
 //    getInfo.addActionListener(new ActionListener() {
 //        public void actionPerformed(ActionEvent e) {
 //            message = name.getText();

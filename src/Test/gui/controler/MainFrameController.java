@@ -69,7 +69,7 @@ public class MainFrameController {
                         JOptionPane.showMessageDialog(null,"Admin mode","Reservation System",JOptionPane.INFORMATION_MESSAGE);
                         ReservationClientController clientController = new ReservationClientController().showMainFrameWindow(adminMode,userId);
 //                        clientController.showMainFrameWindow(true);
-                    } else {
+                    }  else if (!adminMode){
                         ReservationClientController clientController = new ReservationClientController().showMainFrameWindow(adminMode,userId);
                     }
                 } else {
