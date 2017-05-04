@@ -58,7 +58,7 @@ public class Hotel {
     }
 
 
-    private String checkBooking() {
+    public String checkBooking() {
 
         jdbc.setConnection();
         StringBuilder book = new StringBuilder();
@@ -266,6 +266,10 @@ public class Hotel {
         }
         return rooms.toString();
 
+    }
+
+    public void setReservationId(int reservationId) {
+        this.reservationId = reservationId;
     }
 
     private void bookRoom(String roomType) {

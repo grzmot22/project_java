@@ -13,6 +13,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.sql.Date;
 
 /**
  * Created by Grzmot22 on 2017-04-25.
@@ -109,7 +110,9 @@ public class ReservationClientController {
         @Override
         public void actionPerformed(ActionEvent e) {
             message = reservationIDTextField.getText();
-
+            hotel.setReservationId(Integer.parseInt(reservationIDTextField.getText()));
+            area.append("Reservation ID  Room No  User ID  Start Date End Date\n");
+            area.append(hotel.checkBooking()+"\n");
 //            Hotel hotel = new Hotel(message,bal);
 //            acc.setCreditLimit(2*bal);
 
@@ -133,13 +136,14 @@ public class ReservationClientController {
         @Override
         public void actionPerformed(ActionEvent e) {
             System.out.println("create");
+            hotel.createBooking(userIDTextField.getText(), Date.valueOf(startDateTextField.getText()),Date.valueOf(endDateTextField.getText()),Integer.parseInt(paidStatusTextField.getText()));
         }
     }
 
     private class bookedRoomsButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println("boooked");
+            hotel.getBookedRooms();
         }
     }
     public void runClient()
